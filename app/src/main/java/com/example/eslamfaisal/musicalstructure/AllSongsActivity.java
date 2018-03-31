@@ -102,35 +102,12 @@ public class AllSongsActivity extends AppCompatActivity {
                 position = i;
                 SongDetailes currentSong = songs.get(i);
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), currentSong.getSongId());
+                duration();
                 mediaPlayer.start();
 
                 String nameOfCurrentSong = "( " + currentSong.getName() + " )";
                 songNamePlay.setText(nameOfCurrentSong);
 
-                finalTime = mediaPlayer.getDuration();
-                startTime = mediaPlayer.getCurrentPosition();
-
-                if (oneTimeOnly == 0) {
-                    seekbar.setMax((int) finalTime);
-                    oneTimeOnly = 1;
-                }
-
-                tx2.setText(String.format("%d M, %d S",
-                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
-                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                        finalTime)))
-                );
-
-                tx1.setText(String.format("%d M, %d S",
-                        TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-                        TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                        startTime)))
-                );
-
-                seekbar.setProgress((int) startTime);
-                myHandler.postDelayed(UpdateSongTime, 100);
 
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -138,6 +115,7 @@ public class AllSongsActivity extends AppCompatActivity {
                         position ++;
                         SongDetailes currentSong = songs.get(position);
                         mediaPlayer = MediaPlayer.create(getApplicationContext(), currentSong.getSongId());
+                        duration();
                         String songName = currentSong.getName();
                         songNamePlay.setText(songName);
                         mediaPlayer.start();
@@ -156,6 +134,7 @@ public class AllSongsActivity extends AppCompatActivity {
                     }
                     SongDetailes currentSong = songs.get(position);
                     mediaPlayer = MediaPlayer.create(getApplicationContext(), currentSong.getSongId());
+                    duration();
                     String songName = currentSong.getName();
                     songNamePlay.setText(songName);
                     mediaPlayer.start();
@@ -172,6 +151,7 @@ public class AllSongsActivity extends AppCompatActivity {
                         position++;
                     SongDetailes currentSong = songs.get(position);
                     mediaPlayer = MediaPlayer.create(getApplicationContext(), currentSong.getSongId());
+                    duration();
                     String songName = currentSong.getName();
                     songNamePlay.setText(songName);
                     mediaPlayer.start();
@@ -238,6 +218,31 @@ public class AllSongsActivity extends AppCompatActivity {
             // is not configured to play an audio file at the moment.
             mediaPlayer = null;
         }
+    }
+
+    private void duration(){
+        finalTime = mediaPlayer.getDuration();
+        startTime = mediaPlayer.getCurrentPosition();
+
+            seekbar.setMax((int) finalTime);
+
+        tx2.setText(String.format("%d M, %d S",
+                TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
+                TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
+                                finalTime)))
+        );
+
+        tx1.setText(String.format("%d M, %d S",
+                TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
+                                startTime)))
+        );
+
+        seekbar.setProgress((int) startTime);
+        myHandler.postDelayed(UpdateSongTime, 100);
+
     }
 
     @Override
