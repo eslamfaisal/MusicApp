@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Musical Structure</string>
+    <!-- Navigate Buttons  -->
+    <string name="all_songs_button_text">All Songs</string>
+    <string name="albums_button_text">All Albums</string>
+    <string name="donate_button_text">Donate</string>
+    <string name="home_button_text">Home</string>
+    <!-- Home Screen -->
+    <string name="hom_text_description">Home - in this activity it show to you the last song that played and i put this button to navigate between all activity of this media player and each button refer to its activity !</string>
+    <string name="home_screen_label">Home Screen</string>
+    <string name="last_song_played">Last Song played : ....</string>
+
+    <!-- allSongs Screen -->
+    <string name="all_songs_label">All Songs</string>
+    <string name="all_songs_text_description">all songs screen - in this screen it show to you All the songs you can listen to and you can press in each on to listen !</string>
+
+    <!-- albums Screen -->
+    <string name="albums_label">Albums Library</string>
+    <string name="album_screen_text_description">Albums screen - in this screen it show to you all different albums of songs and you can choose the album that you want to listen to !</string>
+
+    <!-- album's Songs Screen -->
+    <string name="album_s_songs_label">Album\'s Songs</string>
+    <string name="album_s_songs_text_description">Album\'s Songs screen - this screen show to you the songs of the album which you chose to listen from Albums screen !</string>
+
+
+    <string name="back"><![CDATA[<]]></string>
+    <string name="rewind"><![CDATA[<<]]></string>
+    <string name="forward"><![CDATA[>>]]></string>
+    <string name="pause">||</string>
+
+
+    <!-- Donate Screen -->
+    <string name="pay">Pay with simplify</string>
+    <string name="donate_label">Donate Screen</string>
+    <string name="donate_screen_text_description">Donate screen - here you can help us to improve our app if you want to donate in dollars and you can put the number that you want to donate it and put your Card information then the program automatically take it to our account and thank you</string>
+    <string name="number_you_want_to_donate">number you want to donate $</string>
+</resources>
