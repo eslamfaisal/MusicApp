@@ -1,14 +1,12 @@
 package com.example.eslamfaisal.musicalstructure;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -41,6 +39,24 @@ public class AllSongsActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     int position;
 
+    boolean hh = false;
+    int a = 1;
+
+    int temp = 0;
+
+    private boolean mPetHasChanged = false;
+
+    /**
+     * OnTouchListener that listens for any user touches on a View, implying that they are modifying
+     * the view, and we change the mPetHasChanged boolean to true.
+     */
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mPetHasChanged = true;
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +72,28 @@ public class AllSongsActivity extends AppCompatActivity {
         tx2 = (TextView) findViewById(R.id.textView3);
 
         seekbar = (SeekBar) findViewById(R.id.seekBar);
-        seekbar.setClickable(false);
+        seekbar.setOnTouchListener(mTouchListener);
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                if (mPetHasChanged) {
+                    mediaPlayer.seekTo(i);
+                    mPetHasChanged = false;
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         songNamePlay = (TextView) findViewById(R.id.song_name_playing_in_all_songs);
         setTitle("All Songs");
@@ -112,7 +149,7 @@ public class AllSongsActivity extends AppCompatActivity {
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer media1) {
-                        position ++;
+                        position++;
                         SongDetailes currentSong = songs.get(position);
                         mediaPlayer = MediaPlayer.create(getApplicationContext(), currentSong.getSongId());
                         duration();
@@ -127,7 +164,7 @@ public class AllSongsActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (start == 1) {
+                if (isPlay != false) {
                     releaseMediaPlayer();
                     if (position > 0) {
                         position--;
@@ -145,7 +182,7 @@ public class AllSongsActivity extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (start == 1) {
+                if (isPlay != false) {
                     releaseMediaPlayer();
                     if (position < songs.size() - 1)
                         position++;
@@ -190,19 +227,21 @@ public class AllSongsActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
 
     private Runnable UpdateSongTime = new Runnable() {
         public void run() {
             startTime = mediaPlayer.getCurrentPosition();
-            tx1.setText(String.format("%d M, %d S",
+            tx1.setText(String.format("%d:%d",
                     TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                     TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
                                     toMinutes((long) startTime)))
             );
             seekbar.setProgress((int) startTime);
-            myHandler.postDelayed(this, 100);
+            myHandler.postDelayed(this, 1000);
         }
     };
 
@@ -220,28 +259,28 @@ public class AllSongsActivity extends AppCompatActivity {
         }
     }
 
-    private void duration(){
+    private void duration() {
         finalTime = mediaPlayer.getDuration();
         startTime = mediaPlayer.getCurrentPosition();
 
-            seekbar.setMax((int) finalTime);
+        seekbar.setMax((int) finalTime);
 
-        tx2.setText(String.format("%d M, %d S",
+        tx2.setText(String.format("%d:%d",
                 TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
                 TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
                                 finalTime)))
         );
 
-        tx1.setText(String.format("%d M, %d S",
+        tx1.setText(String.format("%d:%d",
                 TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                 TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
                                 startTime)))
         );
 
-        seekbar.setProgress((int) startTime);
-        myHandler.postDelayed(UpdateSongTime, 100);
+        // seekbar.setProgress((int) startTime);
+        myHandler.postDelayed(UpdateSongTime, 1000);
 
     }
 
