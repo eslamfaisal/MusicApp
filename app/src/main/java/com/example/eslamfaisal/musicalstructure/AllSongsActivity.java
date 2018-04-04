@@ -72,7 +72,8 @@ public class AllSongsActivity extends AppCompatActivity {
         tx2 = (TextView) findViewById(R.id.textView3);
 
         seekbar = (SeekBar) findViewById(R.id.seekBar);
-        seekbar.setOnTouchListener(mTouchListener);
+
+
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -129,6 +130,8 @@ public class AllSongsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                seekbar.setOnTouchListener(mTouchListener);
+
                 start = 1;
                 releaseMediaPlayer();
 
